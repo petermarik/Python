@@ -1,0 +1,21 @@
+web server running on Raspberry Pi. When server receives a request prints “Got a request!”
+
+import socket
+import sys
+mysocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+try:
+    mysocket.bind(('',5555))
+except socket.error:
+    print("failed to bind \n")
+    print("check IP address and port number")
+    sys.exit()
+mysocket.listen(5)
+while True:
+    myconnection,myaddr = mysocket.accept()
+    mydata = myconnection.recv(1000)    
+    if not mydata:
+        break
+    myconnection.sendall(mydata)
+    print("\n\n\n GOT A REQUEST!!! \n\n\n")
+    myconnection.close()
+    mysocket.close()
